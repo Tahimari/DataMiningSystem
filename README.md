@@ -11,5 +11,5 @@ mvn package
 
 ## To run app
 ```
-java -cp target/KMDataMiningSystem-1.0-SNAPSHOT.jar Main
+java -jar target/KMDataMiningSystem-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
