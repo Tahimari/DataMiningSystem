@@ -3,16 +3,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
+
+    static Data data = new Data();
+
     public static void main(String[] args) {
         System.out.println("KMDataMiningSystem version 1.0");
-        try {
-            menu();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        menu();
     }
 
-    public static void menu() throws IOException {
+    public static void menu() {
+        String menuNumber = "";
+
         System.out.println("\nWhat you want to do?");
         System.out.println("[1] Transform plain text data to arff format");
         System.out.println("[2] Load Data");
@@ -26,7 +27,13 @@ public class Main {
 
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
-        String menuNumber = reader.readLine();
+
+        try {
+            menuNumber = reader.readLine();
+        } catch (Exception e) {
+            System.out.println(ConsoleColors.ansiRedMessage(e));
+            menu();
+        }
 
         switch(menuNumber) {
             case "1":
@@ -34,8 +41,8 @@ public class Main {
                 dataTextToArff.menu();
                 break;
             case "2":
-                Data data = new Data();
-                data.menu();
+                data.setInputFromConsole();
+                menu();
                 break;
             case "3":
                 SimpleClassification simpleClassification = new SimpleClassification();
@@ -46,8 +53,13 @@ public class Main {
                 wekaClassification.menu();
                 break;
             case "5":
-                MoaClassification moaClassification = new MoaClassification();
-                moaClassification.menu();
+                if (data.getInput().length() > 0) {
+                    MoaClassification moaClassification = new MoaClassification(data);
+                    moaClassification.menu();
+                } else {
+                    System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Please load data first" + ConsoleColors.ANSI_RESET);
+                    menu();
+                }
                 break;
             case "6":
                 Chart chart = new Chart();
@@ -57,14 +69,15 @@ public class Main {
                 try {
                     about();
                 } catch (Exception e) {
-                    System.out.println(e);
+                    System.out.println(ConsoleColors.ansiRedMessage(e));
+                    menu();
                 }
                 break;
             case "8":
                 System.exit(0);
                 break;
             default:
-                System.out.println("Invalid input");
+                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND  + "Invalid input" + ConsoleColors.ANSI_RESET);
                 menu();
         }
     }

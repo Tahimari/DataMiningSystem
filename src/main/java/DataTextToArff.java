@@ -1,10 +1,9 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -12,26 +11,37 @@ import weka.core.Instances;
 
 
 public class DataTextToArff {
+    private String input = "";
+    private String output = "";
+
     public void menu () {
-        System.out.println("Method not implemented");
         try {
-            Main.menu();
+            setInput();
+            setOutput();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(ConsoleColors.ansiRedMessage(e));
+            Main.menu();
         }
+
+        if (input.length() > 0 && output.length() > 0) {
+            run();
+        } else {
+            System.out.println("Pleas insert input and output path");
+        }
+
+        Main.menu();
     }
 
-    public void run() {
-        String input = "/Users/kamilmisiak/Desktop/Praca Dyplomowa/Poker-data/poker-hand-testing.data.txt";
-        String output = "/Users/kamilmisiak/Desktop/Praca Dyplomowa/arff/PokerDataTest.arff";
+    private void run() {
         try {
-            textToArff(input, output);
+            textToArff(this.input, this.output);
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println(ConsoleColors.ansiRedMessage(e));
+            Main.menu();
         }
     }
 
-    public void textToArff(String input, String output) throws Exception  {
+    private void textToArff(String input, String output) throws Exception  {
         ArrayList<Attribute> attributes;
         ArrayList<String> classVals;
         Instances data;
@@ -63,13 +73,15 @@ public class DataTextToArff {
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st;
+        int line = 0;
+
+        System.out.println("Starting transfering file, it may take a while...");
 
         while ((st = br.readLine()) != null)  {
             values = new double[data.numAttributes()];
             String[] parts = st.split(",");
             for(int i = 0; i < parts.length - 1; i++) {
                 values[i] = Double.parseDouble(parts[i]);
-                System.out.println(parts[i]);
             }
             values[10] = classVals.indexOf("class" + parts[10]);
             data.add(new DenseInstance(1.0, values));
@@ -79,6 +91,30 @@ public class DataTextToArff {
         writer.write(data.toString());
         writer.close();
 
-        System.out.println(data);
+        System.out.println(ConsoleColors.ANSI_GREEN_BACKGROUND + "TRANSFER SUCCESS" +ConsoleColors.ANSI_RESET);
+    }
+
+    private void setInput() throws IOException{
+        System.out.println("Please insert poker data input path:");
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        String inputPath = reader.readLine();
+        if (inputPath.length() > 0) {
+            this.input = inputPath;
+        } else {
+            setInput();
+        }
+    }
+
+    private void setOutput() throws IOException {
+        System.out.println("Please insert poker data output arrf path:");
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        String outputPath = reader.readLine();
+        if (outputPath.length() > 0) {
+            this.output = outputPath;
+        } else {
+            setOutput();
+        }
     }
 }
