@@ -12,6 +12,25 @@ import weka.core.Instances;
 
 
 public class DataTextToArff {
+    public void menu () {
+        System.out.println("Method not implemented");
+        try {
+            Main.menu();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void run() {
+        String input = "/Users/kamilmisiak/Desktop/Praca Dyplomowa/Poker-data/poker-hand-testing.data.txt";
+        String output = "/Users/kamilmisiak/Desktop/Praca Dyplomowa/arff/PokerDataTest.arff";
+        try {
+            textToArff(input, output);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
     public void textToArff(String input, String output) throws Exception  {
         ArrayList<Attribute> attributes;
         ArrayList<String> classVals;
