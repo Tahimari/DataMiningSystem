@@ -35,7 +35,7 @@ public class Main {
             menu();
         }
 
-        switch(menuNumber) {
+        switch (menuNumber) {
             case "1":
                 DataTextToArff dataTextToArff = new DataTextToArff();
                 dataTextToArff.menu();
@@ -49,8 +49,13 @@ public class Main {
                 simpleClassification.menu();
                 break;
             case "4":
-                WekaClassification wekaClassification = new WekaClassification();
-                wekaClassification.menu();
+                if (data.getInput().length() > 0) {
+                    WekaClassification wekaClassification = new WekaClassification(data);
+                    wekaClassification.menu();
+                } else {
+                    System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Please load data first" + ConsoleColors.ANSI_RESET);
+                    menu();
+                }
                 break;
             case "5":
                 if (data.getInput().length() > 0) {
@@ -77,7 +82,7 @@ public class Main {
                 System.exit(0);
                 break;
             default:
-                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND  + "Invalid input" + ConsoleColors.ANSI_RESET);
+                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
                 menu();
         }
     }
