@@ -1,10 +1,10 @@
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.JPanel;
 import java.io.BufferedReader;
@@ -22,10 +22,19 @@ public class Chart extends ApplicationFrame {
             MoaClassification moaClassification
     ) {
         super("test");
+        JFreeChart lineChart = ChartFactory.createLineChart(
+                "test",
+                "Years","Number of Schools",
+                createDataset(),
+                PlotOrientation.VERTICAL,
+                true,true,false);
+
+        ChartPanel chartPanel = new ChartPanel( lineChart );
+        chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
         this.simpleClassification = simpleClassification;
         this.wekaClassification = wekaClassification;
         this.moaClassification = moaClassification;
-        setContentPane(createDemoPanel( ));
+        setContentPane( chartPanel );
     }
 
     public void menu() {
@@ -59,33 +68,19 @@ public class Chart extends ApplicationFrame {
     }
 
     public void run() {
-        this.setSize( 560 , 367 );
+        this.pack( );
         RefineryUtilities.centerFrameOnScreen( this );
         this.setVisible( true );
     }
 
-    private static PieDataset createDataset( ) {
-        DefaultPieDataset dataset = new DefaultPieDataset( );
-        dataset.setValue( "IPhone 5s" , new Double( 20 ) );
-        dataset.setValue( "SamSung Grand" , new Double( 20 ) );
-        dataset.setValue( "MotoG" , new Double( 40 ) );
-        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
+    private DefaultCategoryDataset createDataset( ) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+        dataset.addValue( 15 , "schools" , "1970" );
+        dataset.addValue( 30 , "schools" , "1980" );
+        dataset.addValue( 60 , "schools" ,  "1990" );
+        dataset.addValue( 120 , "schools" , "2000" );
+        dataset.addValue( 240 , "schools" , "2010" );
+        dataset.addValue( 300 , "schools" , "2014" );
         return dataset;
-    }
-
-    private static JFreeChart createChart(PieDataset dataset ) {
-        JFreeChart chart = ChartFactory.createPieChart(
-                "Mobile Sales",   // chart title
-                dataset,          // data
-                true,             // include legend
-                true,
-                false);
-
-        return chart;
-    }
-
-    public static JPanel createDemoPanel( ) {
-        JFreeChart chart = createChart(createDataset( ) );
-        return new ChartPanel( chart );
     }
 }
