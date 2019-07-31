@@ -5,6 +5,9 @@ import java.io.InputStreamReader;
 public class Main {
 
     static Data data = new Data();
+    static SimpleClassification simpleClassification;
+    static WekaClassification wekaClassification;
+    static MoaClassification moaClassification;
 
     public static void main(String[] args) {
         System.out.println("KMDataMiningSystem version 1.0");
@@ -45,12 +48,12 @@ public class Main {
                 menu();
                 break;
             case "3":
-                SimpleClassification simpleClassification = new SimpleClassification();
+                simpleClassification = new SimpleClassification();
                 simpleClassification.menu();
                 break;
             case "4":
                 if (data.getInput().length() > 0) {
-                    WekaClassification wekaClassification = new WekaClassification(data);
+                    wekaClassification = new WekaClassification(data);
                     wekaClassification.menu();
                 } else {
                     System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Please load data first" + ConsoleColors.ANSI_RESET);
@@ -59,7 +62,7 @@ public class Main {
                 break;
             case "5":
                 if (data.getInput().length() > 0) {
-                    MoaClassification moaClassification = new MoaClassification(data);
+                    moaClassification = new MoaClassification(data);
                     moaClassification.menu();
                 } else {
                     System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Please load data first" + ConsoleColors.ANSI_RESET);
@@ -67,7 +70,7 @@ public class Main {
                 }
                 break;
             case "6":
-                Chart chart = new Chart();
+                Chart chart = new Chart(simpleClassification, wekaClassification, moaClassification);
                 chart.menu();
                 break;
             case "7":
