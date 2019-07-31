@@ -21,26 +21,17 @@ public class Chart extends ApplicationFrame {
             WekaClassification wekaClassification,
             MoaClassification moaClassification
     ) {
-        super("test");
-        JFreeChart lineChart = ChartFactory.createLineChart(
-                "test",
-                "Years","Number of Schools",
-                createDataset(),
-                PlotOrientation.VERTICAL,
-                true,true,false);
-
-        ChartPanel chartPanel = new ChartPanel( lineChart );
-        chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
+        super("Classification");
         this.simpleClassification = simpleClassification;
         this.wekaClassification = wekaClassification;
         this.moaClassification = moaClassification;
-        setContentPane( chartPanel );
     }
 
     public void menu() {
         String menuNumber = "";
 
-        System.out.println("[1] To see chart");
+        System.out.println("[1] To see accurancy chart");
+        System.out.println("[2] To see speed chart");
         System.out.println("[3] Main menu");
 
         BufferedReader reader =
@@ -55,7 +46,11 @@ public class Chart extends ApplicationFrame {
 
         switch (menuNumber) {
             case "1":
-                run();
+                accurancyChart();
+                Main.menu();
+                break;
+            case "2":
+                speedChart();
                 Main.menu();
                 break;
             case "3":
@@ -67,20 +62,48 @@ public class Chart extends ApplicationFrame {
         }
     }
 
-    public void run() {
-        this.pack( );
-        RefineryUtilities.centerFrameOnScreen( this );
-        this.setVisible( true );
+    private void accurancyChart() {
+        JFreeChart lineChart = ChartFactory.createLineChart(
+                "Accurancy",
+                "Instances", "Proper clasified instances",
+                createDataset(),
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+        setContentPane(chartPanel);
+        run();
     }
 
-    private DefaultCategoryDataset createDataset( ) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-        dataset.addValue( 15 , "schools" , "1970" );
-        dataset.addValue( 30 , "schools" , "1980" );
-        dataset.addValue( 60 , "schools" ,  "1990" );
-        dataset.addValue( 120 , "schools" , "2000" );
-        dataset.addValue( 240 , "schools" , "2010" );
-        dataset.addValue( 300 , "schools" , "2014" );
+    private void speedChart() {
+        JFreeChart lineChart = ChartFactory.createLineChart(
+                "Speed",
+                "Time", "Clasified instances",
+                createDataset(),
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+        setContentPane(chartPanel);
+        run();
+    }
+
+    private void run() {
+        this.pack();
+        RefineryUtilities.centerFrameOnScreen(this);
+        this.setVisible(true);
+    }
+
+    private DefaultCategoryDataset createDataset() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.addValue(15, "schools", "1970");
+        dataset.addValue(30, "schools", "1980");
+        dataset.addValue(60, "schools", "1990");
+        dataset.addValue(120, "schools", "2000");
+        dataset.addValue(240, "schools", "2010");
+        dataset.addValue(300, "schools", "2014");
         return dataset;
     }
 }
