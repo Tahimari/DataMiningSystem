@@ -1,16 +1,15 @@
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class Chart extends ApplicationFrame {
+public class Chart extends JFrame {
 
     SimpleClassification simpleClassification;
     WekaClassification wekaClassification;
@@ -47,11 +46,11 @@ public class Chart extends ApplicationFrame {
         switch (menuNumber) {
             case "1":
                 accurancyChart();
-                Main.menu();
+                menu();
                 break;
             case "2":
                 speedChart();
-                Main.menu();
+                menu();
                 break;
             case "3":
                 Main.menu();
