@@ -5,19 +5,6 @@ public class Data {
 
     private String input = "";
 
-    public void menu() {
-        System.out.println("Method not implemented");
-        try {
-            Main.menu();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    private void loadArffData() {
-        System.out.println("Method not implemented");
-    }
-
     public void setInputFromConsole() {
         String inputPath = "";
         System.out.println("Please insert poker data input path:");
