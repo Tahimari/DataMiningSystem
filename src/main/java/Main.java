@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 public class Main {
 
     static Data data = new Data();
-    static SimpleClassification simpleClassification;
     static WekaClassification wekaClassification;
     static MoaClassification moaClassification;
 
@@ -20,12 +19,11 @@ public class Main {
         System.out.println("\nWhat you want to do?");
         System.out.println("[1] Transform plain text data to arff format");
         System.out.println("[2] Load Data");
-        System.out.println("[3] Simple Classification");
-        System.out.println("[4] Weka Classification");
-        System.out.println("[5] Moa Classification");
-        System.out.println("[6] Charts");
-        System.out.println("[7] About program");
-        System.out.println("[8] Exit");
+        System.out.println("[3] Weka Classification");
+        System.out.println("[4] Moa Classification");
+        System.out.println("[5] Charts");
+        System.out.println("[6] About program");
+        System.out.println("[7] Exit");
         System.out.println("Insert menu number and press enter...");
 
         BufferedReader reader =
@@ -48,10 +46,6 @@ public class Main {
                 menu();
                 break;
             case "3":
-                simpleClassification = new SimpleClassification();
-                simpleClassification.menu();
-                break;
-            case "4":
                 if (data.getInput().length() > 0) {
                     wekaClassification = new WekaClassification(data);
                     wekaClassification.menu();
@@ -60,7 +54,7 @@ public class Main {
                     menu();
                 }
                 break;
-            case "5":
+            case "4":
                 if (data.getInput().length() > 0) {
                     moaClassification = new MoaClassification(data);
                     moaClassification.menu();
@@ -69,11 +63,11 @@ public class Main {
                     menu();
                 }
                 break;
-            case "6":
-                Chart chart = new Chart(simpleClassification, wekaClassification, moaClassification);
+            case "5":
+                Chart chart = new Chart(wekaClassification, moaClassification);
                 chart.menu();
                 break;
-            case "7":
+            case "6":
                 try {
                     about();
                 } catch (Exception e) {
@@ -81,7 +75,7 @@ public class Main {
                     menu();
                 }
                 break;
-            case "8":
+            case "7":
                 System.exit(0);
                 break;
             default:

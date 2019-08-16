@@ -11,17 +11,14 @@ import java.io.InputStreamReader;
 
 public class Chart extends JFrame {
 
-    SimpleClassification simpleClassification;
     WekaClassification wekaClassification;
     MoaClassification moaClassification;
 
     Chart(
-            SimpleClassification simpleClassification,
             WekaClassification wekaClassification,
             MoaClassification moaClassification
     ) {
         super("Classification");
-        this.simpleClassification = simpleClassification;
         this.wekaClassification = wekaClassification;
         this.moaClassification = moaClassification;
     }
