@@ -53,11 +53,12 @@ public class MoaClassification {
 
     private void run(boolean isTesting) {
         try {
-            Classifier learner = new HoeffdingTree();
+            System.out.println("Starting processing, it may take a while.");
 
             ArffFileStream stream = new ArffFileStream(data.getInput(), 10);
             stream.prepareForUse();
 
+            Classifier learner = new HoeffdingTree();
             learner.setModelContext(stream.getHeader());
             learner.prepareForUse();
 
