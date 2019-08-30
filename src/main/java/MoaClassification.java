@@ -6,10 +6,13 @@ import moa.streams.ArffFileStream;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MoaClassification {
 
     Data data;
+    Map<String, Double> result = null;
 
     MoaClassification(Data data) {
         this.data = data;
@@ -35,7 +38,7 @@ public class MoaClassification {
 
         switch (menuNumber) {
             case "1":
-                run(true);
+                result = run(true);
                 Main.menu();
                 break;
             case "2":
@@ -51,7 +54,7 @@ public class MoaClassification {
         }
     }
 
-    private void run(boolean isTesting) {
+    private Map<String, Double> run(boolean isTesting) {
         try {
             System.out.println("Starting processing, it may take a while.");
 
@@ -77,10 +80,17 @@ public class MoaClassification {
             }
             double accuracy = 100.0 * (double) numberSamplesCorrect / (double) numberSamples;
             double time = TimingUtils.nanoTimeToSeconds(TimingUtils.getNanoCPUTimeOfCurrentThread() - evaluateStartTime);
+            Map<String, Double> map = new HashMap<String, Double>();
+            map.put("accurancy", accuracy);
+            map.put("time", time);
+
             System.out.println(numberSamples + " instances processed with " + accuracy + "% accuracy in " + time + "seconds");
+
+            return map;
         } catch (Exception e) {
             System.out.println(ConsoleColors.ansiRedMessage(e));
             Main.menu();
         }
+        return null;
     }
 }

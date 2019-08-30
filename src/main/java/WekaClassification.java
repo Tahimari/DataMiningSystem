@@ -6,11 +6,14 @@ import weka.core.converters.ConverterUtils.DataSource;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class WekaClassification {
 
     Data data;
+    Map<String, Double> result = null;
 
     WekaClassification(Data data) {
         this.data = data;
@@ -36,7 +39,7 @@ public class WekaClassification {
 
         switch (menuNumber) {
             case "1":
-                run(true);
+                result = run(true);
                 Main.menu();
                 break;
             case "2":
@@ -52,7 +55,7 @@ public class WekaClassification {
         }
     }
 
-    public void run(boolean isTesting) {
+    public Map<String, Double> run(boolean isTesting) {
         try {
             System.out.println("Starting processing, it may take a while.");
 
@@ -82,10 +85,17 @@ public class WekaClassification {
             numberSamples = eval.numInstances();
             double accuracy = 100.0 * numberSamplesCorrect / numberSamples;
             double time = TimingUtils.nanoTimeToSeconds(TimingUtils.getNanoCPUTimeOfCurrentThread() - evaluateStartTime);
+            Map<String, Double> map = new HashMap<String, Double>();
+            map.put("accurancy", accuracy);
+            map.put("time", time);
+
             System.out.println(numberSamples + " instances processed with " + accuracy + "% accuracy in " + time + "seconds");
+
+            return map;
         } catch (Exception e) {
             System.out.println(ConsoleColors.ansiRedMessage(e));
             Main.menu();
         }
+        return null;
     }
 }

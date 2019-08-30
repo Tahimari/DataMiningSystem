@@ -24,6 +24,13 @@ public class Chart extends JFrame {
     }
 
     public void menu() {
+        if (wekaClassification == null || wekaClassification.result == null) {
+            System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Weka data is not set" + ConsoleColors.ANSI_RESET);
+        }
+        if (moaClassification == null || moaClassification.result == null) {
+            System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Moa data is not set" + ConsoleColors.ANSI_RESET);
+        }
+
         String menuNumber = "";
 
         System.out.println("[1] To see accurancy chart");
@@ -59,28 +66,30 @@ public class Chart extends JFrame {
     }
 
     private void accurancyChart() {
-        JFreeChart lineChart = ChartFactory.createLineChart(
+        JFreeChart barChart = ChartFactory.createBarChart(
                 "Accurancy",
-                "Instances", "Proper clasified instances",
-                createDataset(),
+                "Category",
+                "Proper clasified instances",
+                createAccurancyDataset(),
                 PlotOrientation.VERTICAL,
                 true, true, false);
 
-        ChartPanel chartPanel = new ChartPanel(lineChart);
+        ChartPanel chartPanel = new ChartPanel(barChart);
         chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
         setContentPane(chartPanel);
         run();
     }
 
     private void speedChart() {
-        JFreeChart lineChart = ChartFactory.createLineChart(
+        JFreeChart barChart = ChartFactory.createBarChart(
                 "Speed",
-                "Time", "Clasified instances",
-                createDataset(),
+                "Category",
+                "Clasified instances",
+                createSpeedDataset(),
                 PlotOrientation.VERTICAL,
                 true, true, false);
 
-        ChartPanel chartPanel = new ChartPanel(lineChart);
+        ChartPanel chartPanel = new ChartPanel(barChart);
         chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
         setContentPane(chartPanel);
         run();
@@ -92,14 +101,45 @@ public class Chart extends JFrame {
         this.setVisible(true);
     }
 
-    private DefaultCategoryDataset createDataset() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(15, "schools", "1970");
-        dataset.addValue(30, "schools", "1980");
-        dataset.addValue(60, "schools", "1990");
-        dataset.addValue(120, "schools", "2000");
-        dataset.addValue(240, "schools", "2010");
-        dataset.addValue(300, "schools", "2014");
+    private DefaultCategoryDataset createAccurancyDataset() {
+        final String moa = "MOA";
+        final String weka = "WEKA";
+        final String accurancy = "Accurancy";
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        if (moaClassification != null
+                && moaClassification.result != null
+                && moaClassification.result.get("accurancy") != null) {
+            dataset.addValue(moaClassification.result.get("accurancy"), moa, accurancy);
+        }
+
+        if (wekaClassification != null
+                && wekaClassification.result != null
+                && wekaClassification.result.get("accurancy") != null) {
+            dataset.addValue(wekaClassification.result.get("accurancy"), weka, accurancy);
+        }
+
+        return dataset;
+    }
+
+    private DefaultCategoryDataset createSpeedDataset() {
+        final String moa = "MOA";
+        final String weka = "WEKA";
+        final String accurancy = "Speed";
+        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        if (moaClassification != null
+                && moaClassification.result != null
+                && moaClassification.result.get("time") != null) {
+            dataset.addValue(moaClassification.result.get("time"), moa, accurancy);
+        }
+
+        if (wekaClassification != null
+                && wekaClassification.result != null
+                && wekaClassification.result.get("time") != null) {
+            dataset.addValue(wekaClassification.result.get("time"), weka, accurancy);
+        }
+
         return dataset;
     }
 }
