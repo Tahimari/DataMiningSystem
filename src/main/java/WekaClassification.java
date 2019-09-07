@@ -55,7 +55,7 @@ public class WekaClassification {
         }
     }
 
-    public Map<String, Double> run(boolean isTesting) {
+    private Map<String, Double> run(boolean isTesting) {
         try {
             System.out.println("Starting processing, it may take a while.");
 
