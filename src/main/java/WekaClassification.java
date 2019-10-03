@@ -1,7 +1,9 @@
 import moa.core.TimingUtils;
+import weka.classifiers.Classifier;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.trees.HoeffdingTree;
 import weka.core.*;
 import weka.classifiers.Evaluation;
-import weka.classifiers.bayes.NaiveBayes;
 import weka.core.converters.ConverterUtils.DataSource;
 
 import java.io.BufferedReader;
@@ -14,13 +16,18 @@ public class WekaClassification {
 
     Data data;
     Map<String, Double> result = null;
+    Classifier learner;
 
     WekaClassification(Data data) {
         this.data = data;
     }
 
     public void menu() {
+        learnerMenu();
+        testingMenu();
+    }
 
+    private void testingMenu() {
         String menuNumber = "";
 
         System.out.println("[1] To run testing");
@@ -53,6 +60,40 @@ public class WekaClassification {
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
                 menu();
         }
+
+    }
+
+    private void learnerMenu() {
+        String menuNumber = "";
+
+        System.out.println("[1] To run with Bayes Classifier");
+        System.out.println("[2] To run with Hoeffding tree Classifier");
+        System.out.println("[3] Main menu");
+
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            menuNumber = reader.readLine();
+        } catch (Exception e) {
+            System.out.println(ConsoleColors.ansiRedMessage(e));
+            menu();
+        }
+
+        switch (menuNumber) {
+            case "1":
+                this.learner = new NaiveBayes();
+                break;
+            case "2":
+                this.learner = new HoeffdingTree();
+                break;
+            case "3":
+                Main.menu();
+                break;
+            default:
+                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
+                menu();
+        }
     }
 
     private Map<String, Double> run(boolean isTesting) {
@@ -66,17 +107,15 @@ public class WekaClassification {
             }
 
 
-            NaiveBayes nb = new NaiveBayes();
-
             double numberSamplesCorrect = 0;
             double numberSamples = 0;
             long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
 
-            nb.buildClassifier(data);
+            this.learner.buildClassifier(data);
 
             Evaluation eval = null;
             eval = new Evaluation(data);
-            eval.crossValidateModel(nb, data, 5, new Random(1));
+            eval.crossValidateModel(this.learner, data, 5, new Random(1));
 
             if (isTesting) {
                 numberSamplesCorrect = eval.correct();
