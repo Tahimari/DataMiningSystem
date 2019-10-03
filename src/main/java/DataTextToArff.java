@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 
+import scala.Int;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
@@ -9,11 +10,15 @@ import weka.core.Instances;
 public class DataTextToArff {
     private String input = "";
     private String output = "";
+    private Integer numberOfAttributes = 0;
+    private Integer numberOfClassVals = 0;
 
-    public void menu () {
+    public void menu() {
         try {
             setInput();
             setOutput();
+            setAttributes();
+            setClassVals();
         } catch (Exception e) {
             System.out.println(ConsoleColors.ansiRedMessage(e));
             Main.menu();
@@ -31,13 +36,13 @@ public class DataTextToArff {
     private void run() {
         try {
             textToArff(this.input, this.output);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(ConsoleColors.ansiRedMessage(e));
             Main.menu();
         }
     }
 
-    private void textToArff(String input, String output) throws Exception  {
+    private void textToArff(String input, String output) throws Exception {
         ArrayList<Attribute> attributes;
         ArrayList<String> classVals;
         Instances data;
@@ -45,18 +50,12 @@ public class DataTextToArff {
 
         attributes = new ArrayList<Attribute>();
 
-        attributes.add(new Attribute("S1"));
-        attributes.add(new Attribute("C1"));
-        attributes.add(new Attribute("S2"));
-        attributes.add(new Attribute("C2"));
-        attributes.add(new Attribute("S3"));
-        attributes.add(new Attribute("C3"));
-        attributes.add(new Attribute("S4"));
-        attributes.add(new Attribute("C4"));
-        attributes.add(new Attribute("S5"));
-        attributes.add(new Attribute("C5"));
+        for (int i = 0; i < numberOfAttributes; i++) {
+            attributes.add(new Attribute("Attribute" + (i)));
+        }
+
         classVals = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numberOfClassVals; i++) {
             classVals.add("class" + (i));
         }
         Attribute classVal = new Attribute("class", classVals);
@@ -73,13 +72,13 @@ public class DataTextToArff {
 
         System.out.println("Starting transfering file, it may take a while...");
 
-        while ((st = br.readLine()) != null)  {
+        while ((st = br.readLine()) != null) {
             values = new double[data.numAttributes()];
             String[] parts = st.split(",");
-            for(int i = 0; i < parts.length - 1; i++) {
+            for (int i = 0; i < parts.length - 1; i++) {
                 values[i] = Double.parseDouble(parts[i]);
             }
-            values[10] = classVals.indexOf("class" + parts[10]);
+            values[numberOfAttributes] = classVals.indexOf("class" + parts[parts.length - 1]);
             data.add(new DenseInstance(1.0, values));
         }
 
@@ -87,10 +86,10 @@ public class DataTextToArff {
         writer.write(data.toString());
         writer.close();
 
-        System.out.println(ConsoleColors.ANSI_GREEN_BACKGROUND + "TRANSFER SUCCESS" +ConsoleColors.ANSI_RESET);
+        System.out.println(ConsoleColors.ANSI_GREEN_BACKGROUND + "TRANSFER SUCCESS" + ConsoleColors.ANSI_RESET);
     }
 
-    private void setInput() throws IOException{
+    private void setInput() throws IOException {
         System.out.println("Please insert poker data input path:");
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
@@ -111,6 +110,30 @@ public class DataTextToArff {
             this.output = outputPath;
         } else {
             setOutput();
+        }
+    }
+
+    private void setAttributes() throws IOException {
+        System.out.println("Please insert number of attributes:");
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        String numberOfAttributes = reader.readLine();
+        if (Integer.parseInt(numberOfAttributes) > 0) {
+            this.numberOfAttributes = Integer.parseInt(numberOfAttributes);
+        } else {
+            setAttributes();
+        }
+    }
+
+    private void setClassVals() throws IOException {
+        System.out.println("Please insert number of class vals:");
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        String numberOfClassVals = reader.readLine();
+        if (Integer.parseInt(numberOfClassVals) > 0) {
+            this.numberOfClassVals = Integer.parseInt(numberOfClassVals);
+        } else {
+            setClassVals();
         }
     }
 }
