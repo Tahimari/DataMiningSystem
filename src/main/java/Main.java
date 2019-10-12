@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class Main {
 
     static Data data = new Data();
@@ -14,7 +10,6 @@ public class Main {
     }
 
     public static void menu() {
-        String menuNumber = "";
 
         System.out.println("\nWhat you want to do?");
         System.out.println("[1] Transform plain text data to arff format");
@@ -26,17 +21,7 @@ public class Main {
         System.out.println("[7] Exit");
         System.out.println("Insert menu number and press enter...");
 
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(System.in));
-
-        try {
-            menuNumber = reader.readLine();
-        } catch (Exception e) {
-            System.out.println(ConsoleColors.ansiRedMessage(e));
-            menu();
-        }
-
-        switch (menuNumber) {
+        switch (IOHelper.readInput()) {
             case "1":
                 DataTextToArff dataTextToArff = new DataTextToArff();
                 dataTextToArff.menu();
@@ -50,7 +35,7 @@ public class Main {
                     wekaClassification = new WekaClassification(data);
                     wekaClassification.menu();
                 } else {
-                    System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Please load data first" + ConsoleColors.ANSI_RESET);
+                    ConsoleColors.ansiRedMessage("Please load data first");
                     menu();
                 }
                 break;
@@ -59,7 +44,7 @@ public class Main {
                     moaClassification = new MoaClassification(data);
                     moaClassification.menu();
                 } else {
-                    System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Please load data first" + ConsoleColors.ANSI_RESET);
+                    ConsoleColors.ansiRedMessage("Please load data first");
                     menu();
                 }
                 break;
@@ -68,29 +53,22 @@ public class Main {
                 chart.menu();
                 break;
             case "6":
-                try {
-                    about();
-                } catch (Exception e) {
-                    System.out.println(ConsoleColors.ansiRedMessage(e));
-                    menu();
-                }
+                about();
                 break;
             case "7":
                 System.exit(0);
                 break;
             default:
-                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
+                ConsoleColors.ansiRedMessage("Invalid input");
                 menu();
         }
     }
 
-    public static void about() throws IOException {
+    public static void about() {
         System.out.println("Data Mining System version 1.0.0");
         System.out.println("This program is part of thesis, created by Kamil Misiak");
         System.out.println("Press enter to go to menu...");
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(System.in));
-        String menuNumber = reader.readLine();
+        IOHelper.readInput();
         menu();
     }
 }

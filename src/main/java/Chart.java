@@ -6,8 +6,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 public class Chart extends JFrame {
 
@@ -25,27 +23,17 @@ public class Chart extends JFrame {
 
     public void menu() {
         if (wekaClassification == null || wekaClassification.result == null) {
-            System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Weka data is not set" + ConsoleColors.ANSI_RESET);
+            ConsoleColors.ansiRedMessage("Weka data is not set");
         }
         if (moaClassification == null || moaClassification.result == null) {
-            System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Moa data is not set" + ConsoleColors.ANSI_RESET);
+            ConsoleColors.ansiRedMessage("Moa data is not set");
         }
-
-        String menuNumber = "";
 
         System.out.println("[1] To see accurancy chart");
         System.out.println("[2] To see speed chart");
         System.out.println("[3] Main menu");
 
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(System.in));
-
-        try {
-            menuNumber = reader.readLine();
-        } catch (Exception e) {
-            System.out.println(ConsoleColors.ansiRedMessage(e));
-            menu();
-        }
+        String menuNumber = IOHelper.readInput();
 
         switch (menuNumber) {
             case "1":
@@ -60,7 +48,7 @@ public class Chart extends JFrame {
                 Main.menu();
                 break;
             default:
-                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
+                ConsoleColors.ansiRedMessage("Invalid input");
                 menu();
         }
     }

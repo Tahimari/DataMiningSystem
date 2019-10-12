@@ -6,8 +6,6 @@ import weka.core.*;
 import weka.classifiers.Evaluation;
 import weka.core.converters.ConverterUtils.DataSource;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -27,24 +25,33 @@ public class WekaClassification {
         testingMenu();
     }
 
-    private void testingMenu() {
-        String menuNumber = "";
+    private void learnerMenu() {
+        System.out.println("[1] To run with Bayes Classifier");
+        System.out.println("[2] To run with Hoeffding tree Classifier");
+        System.out.println("[3] Main menu");
 
+        switch (IOHelper.readInput()) {
+            case "1":
+                this.learner = new NaiveBayes();
+                break;
+            case "2":
+                this.learner = new HoeffdingTree();
+                break;
+            case "3":
+                Main.menu();
+                break;
+            default:
+                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
+                menu();
+        }
+    }
+
+    private void testingMenu() {
         System.out.println("[1] To run testing");
         System.out.println("[2] To run not testing");
         System.out.println("[3] Main menu");
 
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(System.in));
-
-        try {
-            menuNumber = reader.readLine();
-        } catch (Exception e) {
-            System.out.println(ConsoleColors.ansiRedMessage(e));
-            menu();
-        }
-
-        switch (menuNumber) {
+        switch (IOHelper.readInput()) {
             case "1":
                 result = run(true);
                 Main.menu();
@@ -63,39 +70,6 @@ public class WekaClassification {
 
     }
 
-    private void learnerMenu() {
-        String menuNumber = "";
-
-        System.out.println("[1] To run with Bayes Classifier");
-        System.out.println("[2] To run with Hoeffding tree Classifier");
-        System.out.println("[3] Main menu");
-
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(System.in));
-
-        try {
-            menuNumber = reader.readLine();
-        } catch (Exception e) {
-            System.out.println(ConsoleColors.ansiRedMessage(e));
-            menu();
-        }
-
-        switch (menuNumber) {
-            case "1":
-                this.learner = new NaiveBayes();
-                break;
-            case "2":
-                this.learner = new HoeffdingTree();
-                break;
-            case "3":
-                Main.menu();
-                break;
-            default:
-                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
-                menu();
-        }
-    }
-
     private Map<String, Double> run(boolean isTesting) {
         try {
             System.out.println("Starting processing, it may take a while.");
@@ -106,15 +80,13 @@ public class WekaClassification {
                 data.setClassIndex(data.numAttributes() - 1);
             }
 
-
             double numberSamplesCorrect = 0;
             double numberSamples = 0;
             long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
 
             this.learner.buildClassifier(data);
 
-            Evaluation eval = null;
-            eval = new Evaluation(data);
+            Evaluation eval = new Evaluation(data);
             eval.crossValidateModel(this.learner, data, 5, new Random(1));
 
             if (isTesting) {
@@ -132,7 +104,7 @@ public class WekaClassification {
 
             return map;
         } catch (Exception e) {
-            System.out.println(ConsoleColors.ansiRedMessage(e));
+            ConsoleColors.ansiRedErrorMessage(e);
             Main.menu();
         }
         return null;
