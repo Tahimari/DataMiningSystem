@@ -33,9 +33,8 @@ public class Chart extends JFrame {
         System.out.println("[2] To see speed chart");
         System.out.println("[3] Main menu");
 
-        String menuNumber = IOHelper.readInput();
 
-        switch (menuNumber) {
+        switch (IOHelper.readInput()) {
             case "1":
                 accurancyChart();
                 menu();
