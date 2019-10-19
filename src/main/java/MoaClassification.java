@@ -72,7 +72,7 @@ public class MoaClassification {
         try {
             System.out.println("Starting processing, it may take a while.");
 
-            ArffFileStream stream = new ArffFileStream(data.getInput(), 10);
+            ArffFileStream stream = new ArffFileStream(this.data.getInput(), this.data.getClassValIndex());
             stream.prepareForUse();
 
             learner.setModelContext(stream.getHeader());

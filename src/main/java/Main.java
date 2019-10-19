@@ -28,6 +28,7 @@ public class Main {
                 break;
             case "2":
                 data.setInputFromConsole();
+                data.setClassValIndexFromConsole();
                 menu();
                 break;
             case "3":

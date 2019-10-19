@@ -74,10 +74,10 @@ public class WekaClassification {
         try {
             System.out.println("Starting processing, it may take a while.");
 
-            DataSource source = new DataSource(data.getInput());
+            DataSource source = new DataSource(this.data.getInput());
             Instances data = source.getDataSet();
             if (data.classIndex() == -1) {
-                data.setClassIndex(data.numAttributes() - 1);
+                data.setClassIndex(this.data.getClassValIndex());
             }
 
             double numberSamplesCorrect = 0;
