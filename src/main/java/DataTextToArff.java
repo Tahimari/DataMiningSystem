@@ -36,11 +36,11 @@ public class DataTextToArff {
     }
 
     private void setAttributes() {
-        this.numberOfAttributes = Integer.parseInt(IOHelper.readInput("Please insert number of attributes:"));
+        this.numberOfAttributes = this.tryParse(IOHelper.readInput("Please insert number of attributes:"));
     }
 
     private void setClassVals() {
-        this.numberOfClassVals = Integer.parseInt(IOHelper.readInput("Please insert number of class vals:"));
+        this.numberOfClassVals = this.tryParse(IOHelper.readInput("Please insert number of class vals:"));
     }
 
     private void run() {
@@ -96,5 +96,13 @@ public class DataTextToArff {
         writer.close();
 
         ConsoleColors.ansiGreenMessage("TRANSFER SUCCESS");
+    }
+
+    private Integer tryParse(String text) {
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
