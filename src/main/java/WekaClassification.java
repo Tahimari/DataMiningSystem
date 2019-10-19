@@ -87,9 +87,9 @@ public class WekaClassification {
             this.learner.buildClassifier(data);
 
             Evaluation eval = new Evaluation(data);
-            eval.crossValidateModel(this.learner, data, 5, new Random(1));
 
             if (isTesting) {
+                eval.crossValidateModel(this.learner, data, 5, new Random(1));
                 numberSamplesCorrect = eval.correct();
             }
 
