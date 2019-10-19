@@ -74,7 +74,7 @@ public class DataTextToArff {
 
         data = new Instances("MyRelation", attributes, 0);
 
-        File file = new File(this.input);
+        File file = new File(input);
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st;
