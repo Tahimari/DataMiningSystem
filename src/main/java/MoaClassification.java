@@ -2,6 +2,7 @@ import com.yahoo.labs.samoa.instances.Instance;
 import moa.classifiers.Classifier;
 import moa.classifiers.bayes.NaiveBayes;
 import moa.classifiers.trees.HoeffdingTree;
+import moa.classifiers.trees.DecisionStump;
 import moa.core.TimingUtils;
 import moa.streams.ArffFileStream;
 
@@ -26,7 +27,8 @@ public class MoaClassification {
     private void learnerMenu() {
         System.out.println("[1] To run with Bayes Classifier");
         System.out.println("[2] To run with Hoeffding tree Classifier");
-        System.out.println("[3] Main menu");
+        System.out.println("[3] To run with Decision stump Classifier");
+        System.out.println("[4] Main menu");
 
         switch (IOHelper.readInput()) {
             case "1":
@@ -36,6 +38,9 @@ public class MoaClassification {
                 this.learner = new HoeffdingTree();
                 break;
             case "3":
+                this.learner = new DecisionStump();
+                break;
+            case "4":
                 Main.menu();
                 break;
             default:

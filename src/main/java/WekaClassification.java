@@ -1,6 +1,7 @@
 import moa.core.TimingUtils;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.trees.DecisionStump;
 import weka.classifiers.trees.HoeffdingTree;
 import weka.core.*;
 import weka.classifiers.Evaluation;
@@ -28,7 +29,8 @@ public class WekaClassification {
     private void learnerMenu() {
         System.out.println("[1] To run with Bayes Classifier");
         System.out.println("[2] To run with Hoeffding tree Classifier");
-        System.out.println("[3] Main menu");
+        System.out.println("[3] To run with Decision stump Classifier");
+        System.out.println("[4] Main menu");
 
         switch (IOHelper.readInput()) {
             case "1":
@@ -38,6 +40,9 @@ public class WekaClassification {
                 this.learner = new HoeffdingTree();
                 break;
             case "3":
+                this.learner = new DecisionStump();
+                break;
+            case "4":
                 Main.menu();
                 break;
             default:
