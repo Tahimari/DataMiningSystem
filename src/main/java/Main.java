@@ -27,12 +27,11 @@ public class Main {
                 dataTextToArff.menu();
                 break;
             case "2":
-                data.setInputFromConsole();
-                data.setClassValIndexFromConsole();
+                data.setData();
                 menu();
                 break;
             case "3":
-                if (data.getInput().length() > 0) {
+                if (data.getInput().length() > 0 || data.getUseGenerator()) {
                     wekaClassification = new WekaClassification(data);
                     wekaClassification.menu();
                 } else {
@@ -41,7 +40,7 @@ public class Main {
                 }
                 break;
             case "4":
-                if (data.getInput().length() > 0) {
+                if (data.getInput().length() > 0 || data.getUseGenerator()) {
                     moaClassification = new MoaClassification(data);
                     moaClassification.menu();
                 } else {

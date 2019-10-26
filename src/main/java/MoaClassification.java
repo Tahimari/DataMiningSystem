@@ -4,7 +4,6 @@ import moa.classifiers.bayes.NaiveBayes;
 import moa.classifiers.trees.HoeffdingTree;
 import moa.classifiers.trees.DecisionStump;
 import moa.core.TimingUtils;
-import moa.streams.ArffFileStream;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,17 +76,16 @@ public class MoaClassification {
         try {
             System.out.println("Starting processing, it may take a while.");
 
-            ArffFileStream stream = new ArffFileStream(this.data.getInput(), this.data.getClassValIndex());
-            stream.prepareForUse();
-
-            learner.setModelContext(stream.getHeader());
+            data.prepareForUse();
+            learner.setModelContext(data.getHeader());
             learner.prepareForUse();
 
             int numberSamplesCorrect = 0;
             int numberSamples = 0;
             long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
-            while (stream.hasMoreInstances()) {
-                Instance trainInst = stream.nextInstance().getData();
+
+            while (data.hasMoreInstances() && (!data.getUseGenerator() || numberSamples < data.getNumberSamples())) {
+                Instance trainInst = data.nextInstance().getData();
                 if (isTesting) {
                     if (learner.correctlyClassifies(trainInst)) {
                         numberSamplesCorrect++;
@@ -96,6 +94,7 @@ public class MoaClassification {
                 numberSamples++;
                 learner.trainOnInstance(trainInst);
             }
+
             double accuracy = 100.0 * (double) numberSamplesCorrect / (double) numberSamples;
             double time = TimingUtils.nanoTimeToSeconds(TimingUtils.getNanoCPUTimeOfCurrentThread() - evaluateStartTime);
             Map<String, Double> map = new HashMap<String, Double>();
