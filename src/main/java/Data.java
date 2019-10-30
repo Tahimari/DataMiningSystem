@@ -2,6 +2,8 @@ import moa.streams.ArffFileStream;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.datagenerators.classifiers.classification.RandomRBF;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.NumericToNominal;
 
 
 public class Data extends Stream {
@@ -15,7 +17,7 @@ public class Data extends Stream {
         } else {
             this.setInputFromConsole();
             this.setClassValIndexFromConsole();
-            this.arff = new ArffFileStream(this.getInput(), this.getClassValIndex());
+            this.arff = new ArffFileStream(this.input, this.classValIndex);
         }
     }
 
@@ -35,14 +37,28 @@ public class Data extends Stream {
         return this.classValIndex;
     }
 
-    public Instances getDataSource()  {
+    public Instances getDataSource() {
         try {
             if (this.getUseGenerator()) {
-                String[] options = {"n10000", "a10", "c10"};
+
+                String[] options = new String[2];
+                options[0] = "-n";
+                options[1] = String.valueOf(this.getNumberSamples());
+
                 RandomRBF generator = new RandomRBF();
                 generator.setOptions(options);
                 generator.defineDataFormat();
-                return generator.generateExamples();
+
+                Instances instances = generator.generateExamples();
+
+                options[0] = "-R";
+                options[1] = "1-2";
+
+                NumericToNominal numericToNominal = new NumericToNominal();
+                numericToNominal.setOptions(options);
+                numericToNominal.setInputFormat(instances);
+
+                return Filter.useFilter(instances, numericToNominal);
             } else {
                 DataSource source = new DataSource(this.input);
                 return source.getDataSet();
