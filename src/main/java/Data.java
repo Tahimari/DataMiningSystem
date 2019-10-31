@@ -40,7 +40,6 @@ public class Data extends Stream {
     public Instances getDataSource() {
         try {
             if (this.getUseGenerator()) {
-
                 String[] options = new String[2];
                 options[0] = "-n";
                 options[1] = String.valueOf(this.getNumberSamples());
@@ -50,6 +49,8 @@ public class Data extends Stream {
                 generator.defineDataFormat();
 
                 Instances instances = generator.generateExamples();
+
+                this.classValIndex = generator.getNumAttributes();
 
                 options[0] = "-R";
                 options[1] = "1-2";
