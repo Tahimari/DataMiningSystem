@@ -87,7 +87,7 @@ public class MoaClassification {
 
     }
 
-    private Map<String, Double> run() {
+    public Map<String, Double> run() {
         try {
             System.out.println("Starting processing, it may take a while.");
 
@@ -155,16 +155,12 @@ public class MoaClassification {
                 attributes.add(new Attribute("Attribute" + (i)));
             }
 
-            for (int i = 1; i < instance.numClasses() + 1; i++) {
-                classVals.add("class" + (i));
-            }
-
-            Attribute classVal = new Attribute("class", classVals);
+            Attribute classVal = new Attribute("class", data.getHeader().classAttribute().getAttributeValues());
             attributes.add(classVal);
 
             window = new weka.core.Instances("window", attributes, 0);
 
-            for (int i = 0; i < windowSize; i++) {
+            for (int i = 0; i < windowSize - 1; i++) {
                 if (!data.hasMoreInstances()) {
                     windowSize = i;
                     break;
@@ -173,6 +169,7 @@ public class MoaClassification {
                 instance = converter.wekaInstance(data.nextInstance().getData());
             }
 
+            window.add(instance);
             window.setClassIndex(window.numAttributes() - 1);
             learner.buildClassifier(window);
 
