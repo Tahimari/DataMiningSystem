@@ -18,12 +18,12 @@ import java.util.Random;
 public class MoaClassification {
 
     // If not set then J48
-    Classifier learner;
-    Data data;
-    Map<String, Double> result = null;
-    Boolean isTesting = false;
-    int numberSamplesCorrect = 0;
-    int numberSamples = 0;
+    private Classifier learner;
+    private Data data;
+    private Boolean isTesting = false;
+    private int numberSamplesCorrect = 0;
+    private int numberSamples = 0;
+    public Map<String, Double> result = null;
 
     MoaClassification(Data data) {
         this.data = data;
@@ -147,7 +147,6 @@ public class MoaClassification {
         SamoaToWekaInstanceConverter converter = new SamoaToWekaInstanceConverter();
 
         while (data.hasMoreInstances() && (!data.getUseGenerator() || numberSamples < data.getNumberSamples())) {
-            classVals = new ArrayList<String>();
             attributes = new ArrayList<Attribute>();
             weka.core.Instance instance = converter.wekaInstance(data.nextInstance().getData());
 
