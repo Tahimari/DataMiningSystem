@@ -87,7 +87,7 @@ public class MoaClassification {
 
     }
 
-    public Map<String, Double> run() {
+    private Map<String, Double> run() {
         try {
             System.out.println("Starting processing, it may take a while.");
 
