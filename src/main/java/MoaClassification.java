@@ -10,10 +10,7 @@ import weka.core.Instances;
 import weka.classifiers.Evaluation;
 import weka.classifiers.trees.J48;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class MoaClassification {
 
@@ -141,7 +138,6 @@ public class MoaClassification {
     private void runJ48() throws Exception {
         int windowSize = 100;
         Instances window;
-        ArrayList<String> classVals;
         ArrayList<Attribute> attributes;
         J48 learner = new J48();
         SamoaToWekaInstanceConverter converter = new SamoaToWekaInstanceConverter();
@@ -156,12 +152,11 @@ public class MoaClassification {
 
             Attribute classVal = new Attribute("class", data.getHeader().classAttribute().getAttributeValues());
             attributes.add(classVal);
-
             window = new weka.core.Instances("window", attributes, 0);
 
             for (int i = 0; i < windowSize - 1; i++) {
                 if (!data.hasMoreInstances()) {
-                    windowSize = i;
+                    windowSize = i + 1;
                     break;
                 }
                 window.add(instance);
@@ -169,7 +164,7 @@ public class MoaClassification {
             }
 
             window.add(instance);
-            window.setClassIndex(window.numAttributes() - 1);
+            window.setClassIndex(data.getClassValIndex());
             learner.buildClassifier(window);
 
             Evaluation eval = new Evaluation(window);

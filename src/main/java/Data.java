@@ -17,7 +17,7 @@ public class Data extends Stream {
         } else {
             this.setInputFromConsole();
             this.setClassValIndexFromConsole();
-            this.arff = new ArffFileStream(this.input, this.classValIndex);
+            this.arff = new ArffFileStream(this.input, this.classValIndex + 1);
         }
     }
 
