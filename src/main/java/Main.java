@@ -21,7 +21,7 @@ public class Main {
 
         System.out.println("\nWhat you want to do?");
         System.out.println("[1] Transform plain text data to arff format");
-        System.out.println("[2] Load data.Data");
+        System.out.println("[2] Load data");
         System.out.println("[3] Weka Classification");
         System.out.println("[4] Moa Classification");
         System.out.println("[5] Charts");

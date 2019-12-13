@@ -20,8 +20,7 @@ public class Data extends Stream {
             this.setNumberSamplesFromConsole();
         } else {
             this.setInputFromConsole();
-            this.setClassValIndexFromConsole();
-            this.arff = new ArffFileStream(this.input, this.classValIndex + 1);
+            this.arff = new ArffFileStream(this.input, this.getDataSource().classIndex());
         }
     }
 
@@ -33,10 +32,6 @@ public class Data extends Stream {
         return this.input;
     }
 
-    public void setClassValIndexFromConsole() {
-        this.classValIndex = IOHelper.tryParse(IOHelper.readInput("Please insert class value index:"));
-    }
-
     public Integer getClassValIndex() {
         return this.classValIndex;
     }
@@ -46,15 +41,16 @@ public class Data extends Stream {
             if (this.getUseGenerator()) {
                 String[] options = new String[2];
                 options[0] = "-n";
-                options[1] = String.valueOf(this.getNumberSamples());
+                options[1] = String.valueOf(this.getNumberSamples() - 1);
 
                 RandomRBF generator = new RandomRBF();
                 generator.setOptions(options);
                 generator.defineDataFormat();
 
                 Instances instances = generator.generateExamples();
+                instances.setClassIndex(instances.numAttributes() - 1);
 
-                this.classValIndex = generator.getNumAttributes();
+                this.classValIndex = instances.numAttributes() - 1;
 
                 options[0] = "-R";
                 options[1] = "1-2";
@@ -66,12 +62,14 @@ public class Data extends Stream {
                 return Filter.useFilter(instances, numericToNominal);
             } else {
                 DataSource source = new DataSource(this.input);
-                return source.getDataSet();
+                Instances dataSet = source.getDataSet();
+                dataSet.setClassIndex(dataSet.numAttributes() - 1);
+                this.classValIndex = dataSet.numAttributes() - 1;
+                return dataSet;
             }
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
             return null;
         }
-
     }
 }
