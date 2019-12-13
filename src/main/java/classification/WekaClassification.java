@@ -1,3 +1,5 @@
+package classification;
+
 import moa.core.TimingUtils;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
@@ -11,19 +13,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import data.Data;
+import helpers.*;
+
 public class WekaClassification {
 
-    Data data;
-    Map<String, Double> result = null;
-    Classifier learner;
+    private Data data;
+    private Classifier learner;
+    public Map<String, Double> result = null;
 
-    WekaClassification(Data data) {
+    public WekaClassification(Data data) {
         this.data = data;
     }
 
     public void menu() {
         learnerMenu();
-        testingMenu();
     }
 
     private void learnerMenu() {
@@ -47,12 +51,11 @@ public class WekaClassification {
                 this.learner = new J48();
                 break;
             case "5":
-                Main.menu();
-                break;
+                return;
             default:
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
-                menu();
         }
+        testingMenu();
     }
 
     private void testingMenu() {
@@ -63,15 +66,12 @@ public class WekaClassification {
         switch (IOHelper.readInput()) {
             case "1":
                 result = run(true);
-                Main.menu();
                 break;
             case "2":
                 run(false);
-                Main.menu();
                 break;
             case "3":
-                Main.menu();
-                break;
+                return;
             default:
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
                 menu();
@@ -113,7 +113,6 @@ public class WekaClassification {
             return map;
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
-            Main.menu();
         }
         return null;
     }

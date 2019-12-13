@@ -1,3 +1,5 @@
+package classification;
+
 import com.yahoo.labs.samoa.instances.Instance;
 import com.yahoo.labs.samoa.instances.SamoaToWekaInstanceConverter;
 import moa.classifiers.Classifier;
@@ -12,6 +14,9 @@ import weka.classifiers.trees.J48;
 
 import java.util.*;
 
+import data.Data;
+import helpers.*;
+
 public class MoaClassification {
 
     // If not set then J48
@@ -22,13 +27,12 @@ public class MoaClassification {
     private int numberSamples = 0;
     public Map<String, Double> result = null;
 
-    MoaClassification(Data data) {
+    public MoaClassification(Data data) {
         this.data = data;
     }
 
     public void menu() {
         learnerMenu();
-        testingMenu();
     }
 
     private void learnerMenu() {
@@ -51,12 +55,12 @@ public class MoaClassification {
             case "4":
                 break;
             case "5":
-                Main.menu();
-                break;
+                return;
             default:
                 ConsoleColors.ansiRedMessage("Invalid input");
                 menu();
         }
+        testingMenu();
     }
 
     private void testingMenu() {
@@ -67,16 +71,13 @@ public class MoaClassification {
             case "1":
                 this.isTesting = true;
                 result = run();
-                Main.menu();
                 break;
             case "2":
                 this.isTesting = false;
                 run();
-                Main.menu();
                 break;
             case "3":
-                Main.menu();
-                break;
+                return;
             default:
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
                 menu();
@@ -116,7 +117,6 @@ public class MoaClassification {
             return map;
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
-            Main.menu();
         }
         return null;
     }

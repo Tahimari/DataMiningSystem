@@ -1,9 +1,13 @@
+package data;
+
 import moa.streams.ArffFileStream;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 import weka.datagenerators.classifiers.classification.RandomRBF;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal;
+
+import helpers.*;
 
 
 public class Data extends Stream {

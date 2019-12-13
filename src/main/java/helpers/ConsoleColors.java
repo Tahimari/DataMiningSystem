@@ -1,3 +1,5 @@
+package helpers;
+
 public class ConsoleColors {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED_BACKGROUND = "\u001B[41m";

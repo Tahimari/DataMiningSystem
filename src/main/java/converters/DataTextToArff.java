@@ -1,9 +1,13 @@
+package converters;
+
 import java.io.*;
 import java.util.ArrayList;
 
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
+
+import helpers.*;
 
 
 public class DataTextToArff {
@@ -23,8 +27,6 @@ public class DataTextToArff {
         } else {
             System.out.println("Pleas insert input and output path");
         }
-
-        Main.menu();
     }
 
     private void setInput() {
@@ -48,7 +50,6 @@ public class DataTextToArff {
             textToArff(this.input, this.output);
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
-            Main.menu();
         }
     }
 

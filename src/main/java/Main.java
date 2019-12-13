@@ -1,3 +1,11 @@
+import classification.MoaClassification;
+import classification.WekaClassification;
+import converters.DataTextToArff;
+import data.Data;
+import helpers.ConsoleColors;
+import helpers.IOHelper;
+import view.Chart;
+
 public class Main {
 
     static Data data = new Data();
@@ -13,7 +21,7 @@ public class Main {
 
         System.out.println("\nWhat you want to do?");
         System.out.println("[1] Transform plain text data to arff format");
-        System.out.println("[2] Load Data");
+        System.out.println("[2] Load data.Data");
         System.out.println("[3] Weka Classification");
         System.out.println("[4] Moa Classification");
         System.out.println("[5] Charts");
@@ -62,10 +70,11 @@ public class Main {
                 ConsoleColors.ansiRedMessage("Invalid input");
                 menu();
         }
+        menu();
     }
 
     public static void about() {
-        System.out.println("Data Mining System version 1.0.0");
+        System.out.println("data.Data Mining System version 1.0.0");
         System.out.println("This program is part of thesis, created by Kamil Misiak");
         System.out.println("Press enter to go to menu...");
         IOHelper.readInput();

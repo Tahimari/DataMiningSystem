@@ -1,9 +1,16 @@
+package view;
+
+import classification.MoaClassification;
+import classification.WekaClassification;
+import helpers.ConsoleColors;
+import helpers.IOHelper;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+
 
 import javax.swing.*;
 
@@ -12,7 +19,7 @@ public class Chart extends JFrame {
     WekaClassification wekaClassification;
     MoaClassification moaClassification;
 
-    Chart(
+    public Chart(
             WekaClassification wekaClassification,
             MoaClassification moaClassification
     ) {
@@ -44,7 +51,6 @@ public class Chart extends JFrame {
                 menu();
                 break;
             case "3":
-                Main.menu();
                 break;
             default:
                 ConsoleColors.ansiRedMessage("Invalid input");
