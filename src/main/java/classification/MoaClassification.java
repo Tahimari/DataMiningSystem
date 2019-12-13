@@ -149,8 +149,7 @@ public class MoaClassification {
             for (int i = 1; i < instance.numAttributes(); i++) {
                 attributes.add(new Attribute("Attribute" + (i)));
             }
-
-            Attribute classVal = new Attribute("class", data.getHeader().classAttribute().getAttributeValues());
+            Attribute classVal = data.getDataSource().classAttribute();
             attributes.add(classVal);
             window = new weka.core.Instances("window", attributes, 0);
 
@@ -172,6 +171,7 @@ public class MoaClassification {
                 eval.crossValidateModel(learner, window, 5, new Random(1));
                 numberSamplesCorrect += eval.correct();
             }
+
             numberSamples += windowSize;
         }
     }
