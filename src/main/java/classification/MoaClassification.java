@@ -136,7 +136,7 @@ public class MoaClassification {
 
 
     private void runJ48() throws Exception {
-        int windowSize = 100;
+        int windowSize = 50000000;
         Instances window;
         ArrayList<Attribute> attributes;
         J48 learner = new J48();
@@ -145,6 +145,7 @@ public class MoaClassification {
         while (data.hasMoreInstances() && (!data.getUseGenerator() || numberSamples < data.getNumberSamples())) {
             attributes = new ArrayList<Attribute>();
             weka.core.Instance instance = converter.wekaInstance(data.nextInstance().getData());
+            windowSize = (windowSize / (instance.numAttributes())) - 1;
 
             for (int i = 0; i < instance.numAttributes() - 1; i++) {
                 attributes.add(data.getDataSource().attribute(i));
@@ -154,7 +155,7 @@ public class MoaClassification {
             attributes.add(classVal);
             window = new weka.core.Instances("window", attributes, 0);
 
-            for (int i = 0; i < windowSize - 1; i++) {
+            for (int i = 0; i < windowSize; i++) {
                 if (!data.hasMoreInstances()) {
                     windowSize = i + 1;
                     break;
