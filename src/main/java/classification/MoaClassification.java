@@ -146,9 +146,10 @@ public class MoaClassification {
             attributes = new ArrayList<Attribute>();
             weka.core.Instance instance = converter.wekaInstance(data.nextInstance().getData());
 
-            for (int i = 1; i < instance.numAttributes(); i++) {
-                attributes.add(new Attribute("Attribute" + (i)));
+            for (int i = 0; i < instance.numAttributes() - 1; i++) {
+                attributes.add(data.getDataSource().attribute(i));
             }
+
             Attribute classVal = data.getDataSource().classAttribute();
             attributes.add(classVal);
             window = new weka.core.Instances("window", attributes, 0);
