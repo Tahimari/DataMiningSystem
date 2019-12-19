@@ -75,9 +75,9 @@ public class Chart extends JFrame {
 
     private void speedChart() {
         JFreeChart barChart = ChartFactory.createBarChart(
-                "Speed",
-                "Category",
                 "Clasified instances",
+                "Category",
+                "Seconds",
                 createSpeedDataset(),
                 PlotOrientation.VERTICAL,
                 true, true, false);
