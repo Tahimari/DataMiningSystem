@@ -170,7 +170,7 @@ public class MoaClassification {
 
             Evaluation eval = new Evaluation(window);
             if (this.isTesting) {
-                eval.crossValidateModel(learner, window, 5, new Random(1));
+                eval.crossValidateModel(learner, window, 5, new Random(System.currentTimeMillis()));
                 numberSamplesCorrect += eval.correct();
             }
 
