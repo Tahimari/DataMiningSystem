@@ -21,7 +21,7 @@ public class Data extends Stream {
                 this.setNumberSamplesFromConsole();
             } else {
                 this.setInputFromConsole();
-                this.arff = new ArffFileStream(this.input, this.getDataSource().getStructure().numAttributes());
+                this.arff = new ArffFileStream(this.input, -1);
             }
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
@@ -65,22 +65,12 @@ public class Data extends Stream {
 
                 return Filter.useFilter(instances, numericToNominal);
             } else {
-
-                Instances dataSet = this.getDataSource().getDataSet();
+                DataSource source = new DataSource(this.input);
+                Instances dataSet = source.getDataSet();
                 dataSet.setClassIndex(dataSet.numAttributes() - 1);
                 this.classValIndex = dataSet.numAttributes() - 1;
                 return dataSet;
             }
-        } catch (Exception e) {
-            ConsoleColors.ansiRedErrorMessage(e);
-            return null;
-        }
-    }
-
-    private DataSource getDataSource() {
-        try {
-            DataSource source = new DataSource(this.input);
-            return source;
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
             return null;
