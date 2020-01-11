@@ -78,7 +78,7 @@ public class WekaClassification {
         try {
             System.out.println("Starting processing, it may take a while.");
 
-            Instances data = this.data.getDataSource();
+            Instances data = this.data.getDataSet();
             if (data.classIndex() == -1) {
                 data.setClassIndex(this.data.getClassValIndex());
             }

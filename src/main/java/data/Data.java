@@ -15,12 +15,16 @@ public class Data extends Stream {
     private int classValIndex = 0;
 
     public void setData() {
-        this.setUseGeneratorFromConsole();
-        if (this.getUseGenerator()) {
-            this.setNumberSamplesFromConsole();
-        } else {
-            this.setInputFromConsole();
-            this.arff = new ArffFileStream(this.input, this.getDataSource().classIndex() + 1);
+        try {
+            this.setUseGeneratorFromConsole();
+            if (this.getUseGenerator()) {
+                this.setNumberSamplesFromConsole();
+            } else {
+                this.setInputFromConsole();
+                this.arff = new ArffFileStream(this.input, this.getDataSource().getStructure().numAttributes());
+            }
+        } catch (Exception e) {
+            ConsoleColors.ansiRedErrorMessage(e);
         }
     }
 
@@ -36,7 +40,7 @@ public class Data extends Stream {
         return this.classValIndex;
     }
 
-    public Instances getDataSource() {
+    public Instances getDataSet() {
         try {
             if (this.getUseGenerator()) {
                 String[] options = new String[2];
@@ -61,12 +65,22 @@ public class Data extends Stream {
 
                 return Filter.useFilter(instances, numericToNominal);
             } else {
-                DataSource source = new DataSource(this.input);
-                Instances dataSet = source.getDataSet();
+
+                Instances dataSet = this.getDataSource().getDataSet();
                 dataSet.setClassIndex(dataSet.numAttributes() - 1);
                 this.classValIndex = dataSet.numAttributes() - 1;
                 return dataSet;
             }
+        } catch (Exception e) {
+            ConsoleColors.ansiRedErrorMessage(e);
+            return null;
+        }
+    }
+
+    private DataSource getDataSource() {
+        try {
+            DataSource source = new DataSource(this.input);
+            return source;
         } catch (Exception e) {
             ConsoleColors.ansiRedErrorMessage(e);
             return null;
