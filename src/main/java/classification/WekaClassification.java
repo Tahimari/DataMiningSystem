@@ -5,7 +5,6 @@ import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.classifiers.trees.DecisionStump;
 import weka.classifiers.trees.HoeffdingTree;
-import weka.classifiers.trees.J48;
 import weka.core.Instances;
 import weka.classifiers.Evaluation;
 
@@ -34,8 +33,7 @@ public class WekaClassification {
         System.out.println("[1] To run with Bayes Classifier");
         System.out.println("[2] To run with Hoeffding tree Classifier");
         System.out.println("[3] To run with Decision stump Classifier");
-        System.out.println("[4] To run with J48 Classifier");
-        System.out.println("[5] Main menu");
+        System.out.println("[4] Main menu");
 
         switch (IOHelper.readInput()) {
             case "1":
@@ -48,9 +46,6 @@ public class WekaClassification {
                 this.learner = new DecisionStump();
                 break;
             case "4":
-                this.learner = new J48();
-                break;
-            case "5":
                 return;
             default:
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
