@@ -20,7 +20,7 @@ public class Data extends Stream {
             this.setNumberSamplesFromConsole();
         } else {
             this.setInputFromConsole();
-            this.arff = new ArffFileStream(this.input, this.getDataSource().classIndex());
+            this.arff = new ArffFileStream(this.input, this.getDataSource().classIndex() + 1);
         }
     }
 
