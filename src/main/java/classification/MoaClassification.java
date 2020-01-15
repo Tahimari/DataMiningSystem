@@ -82,12 +82,12 @@ public class MoaClassification {
 
             numberSamples = 0;
             numberSamplesCorrect = 0;
+            long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
+
             data.prepareForUse();
 
             learner.setModelContext(data.getHeader());
             learner.prepareForUse();
-
-            long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
 
             while (data.hasMoreInstances() && (!data.getUseGenerator() || numberSamples < data.getNumberSamples())) {
                 Instance trainInst = data.nextInstance().getData();

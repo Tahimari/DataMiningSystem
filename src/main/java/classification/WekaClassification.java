@@ -78,14 +78,14 @@ public class WekaClassification {
         try {
             System.out.println("Starting processing, it may take a while.");
 
+            double numberSamplesCorrect = 0;
+            double numberSamples = 0;
+            long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
+
             Instances data = this.data.getDataSet();
             if (data.classIndex() == -1) {
                 data.setClassIndex(this.data.getClassValIndex());
             }
-
-            double numberSamplesCorrect = 0;
-            double numberSamples = 0;
-            long evaluateStartTime = TimingUtils.getNanoCPUTimeOfCurrentThread();
 
             this.learner.buildClassifier(data);
 
