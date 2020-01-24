@@ -48,7 +48,8 @@ public class WekaClassification {
             case "4":
                 return;
             default:
-                System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
+                ConsoleColors.ansiRedMessage("Invalid input");
+                this.learnerMenu();
         }
         testingMenu();
     }

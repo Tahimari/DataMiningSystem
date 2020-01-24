@@ -49,7 +49,7 @@ public class MoaClassification {
                 return;
             default:
                 ConsoleColors.ansiRedMessage("Invalid input");
-                menu();
+                this.learnerMenu();
         }
         testingMenu();
     }
