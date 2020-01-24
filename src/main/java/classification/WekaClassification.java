@@ -50,6 +50,7 @@ public class WekaClassification {
             default:
                 ConsoleColors.ansiRedMessage("Invalid input");
                 this.learnerMenu();
+                return;
         }
         testingMenu();
     }
@@ -71,6 +72,7 @@ public class WekaClassification {
             default:
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
                 this.testingMenu();
+                return;
         }
 
     }
