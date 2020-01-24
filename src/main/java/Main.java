@@ -74,10 +74,10 @@ public class Main {
     }
 
     public static void about() {
-        System.out.println("data.Data Mining System version 1.0.0");
+        System.out.println("Data Mining System version 1.0.0");
         System.out.println("This program is part of thesis, created by Kamil Misiak");
         System.out.println("Press enter to go to menu...");
-        IOHelper.readInput();
+        IOHelper.waitForReadLine();
         menu();
     }
 }

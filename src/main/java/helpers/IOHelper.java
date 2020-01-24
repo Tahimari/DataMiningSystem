@@ -14,21 +14,28 @@ public class IOHelper {
         return runBufferedReader();
     }
 
-    private static String runBufferedReader() {
-        String input = "";
-        BufferedReader reader =
-                new BufferedReader(new InputStreamReader(System.in));
-        try {
-            input = reader.readLine();
-        } catch (Exception e) {
-            ConsoleColors.ansiRedErrorMessage(e);
-        }
+    public static void waitForReadLine () {
+        IOHelper.doInputReading();
+    }
 
+    private static String runBufferedReader() {
+        String input = IOHelper.doInputReading();
         if (input.length() > 0) {
             return input;
         } else {
             ConsoleColors.ansiRedMessage("Invalid Input");
-            return IOHelper.runBufferedReader();
+            return "";
+        }
+    }
+
+    private static String doInputReading() {
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        try {
+            return reader.readLine();
+        } catch (Exception e) {
+            ConsoleColors.ansiRedErrorMessage(e);
+            return "";
         }
     }
 
