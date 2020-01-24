@@ -70,7 +70,7 @@ public class WekaClassification {
                 return;
             default:
                 System.out.println(ConsoleColors.ANSI_RED_BACKGROUND + "Invalid input" + ConsoleColors.ANSI_RESET);
-                menu();
+                this.testingMenu();
         }
 
     }
