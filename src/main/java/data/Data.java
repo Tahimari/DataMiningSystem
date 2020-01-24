@@ -45,7 +45,7 @@ public class Data extends Stream {
             if (this.getUseGenerator()) {
                 String[] options = new String[2];
                 options[0] = "-n";
-                options[1] = String.valueOf(this.getNumberSamples() - 1);
+                options[1] = String.valueOf(this.getNumberSamples());
 
                 RandomRBF generator = new RandomRBF();
                 generator.setOptions(options);
