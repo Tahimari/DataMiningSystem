@@ -21,8 +21,12 @@ public class MoaClassification {
     private int numberSamples = 0;
     public Map<String, Double> result = null;
 
-    public MoaClassification(Data data) {
-        this.data = data;
+    public MoaClassification(Data data) throws Exception {
+        if (data.getInput().length() > 0 || data.getUseGenerator()) {
+            this.data = data;
+        } else {
+            throw new Exception("Please load data first");
+        }
     }
 
     public void menu() {

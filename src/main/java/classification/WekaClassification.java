@@ -21,8 +21,12 @@ public class WekaClassification {
     private Classifier learner;
     public Map<String, Double> result = null;
 
-    public WekaClassification(Data data) {
-        this.data = data;
+    public WekaClassification(Data data) throws Exception {
+        if (data.getInput().length() > 0 || data.getUseGenerator()) {
+            this.data = data;
+        } else {
+            throw new Exception("Please load data first");
+        }
     }
 
     public void menu() {

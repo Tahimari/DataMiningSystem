@@ -39,20 +39,20 @@ public class Main {
                 menu();
                 break;
             case "3":
-                if (data.getInput().length() > 0 || data.getUseGenerator()) {
+                try {
                     wekaClassification = new WekaClassification(data);
                     wekaClassification.menu();
-                } else {
-                    ConsoleColors.ansiRedMessage("Please load data first");
+                } catch (Exception e) {
+                    ConsoleColors.ansiRedErrorMessage(e);
                     menu();
                 }
                 break;
             case "4":
-                if (data.getInput().length() > 0 || data.getUseGenerator()) {
+                try {
                     moaClassification = new MoaClassification(data);
                     moaClassification.menu();
-                } else {
-                    ConsoleColors.ansiRedMessage("Please load data first");
+                } catch (Exception e) {
+                    ConsoleColors.ansiRedErrorMessage(e);
                     menu();
                 }
                 break;
