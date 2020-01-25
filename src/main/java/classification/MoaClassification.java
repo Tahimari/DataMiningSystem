@@ -22,10 +22,8 @@ public class MoaClassification {
     public Map<String, Double> result = null;
 
     public MoaClassification(Data data) throws Exception {
-        if (data.getInput().length() > 0 || data.getUseGenerator()) {
+        if (data.isDataValid()) {
             this.data = data;
-        } else {
-            throw new Exception("Please load data first");
         }
     }
 

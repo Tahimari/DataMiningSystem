@@ -35,6 +35,7 @@ public class Main {
                 dataTextToArff.menu();
                 break;
             case "2":
+                data = new Data();
                 data.setData();
                 menu();
                 break;

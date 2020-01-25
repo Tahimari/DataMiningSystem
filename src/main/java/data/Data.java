@@ -13,6 +13,7 @@ import helpers.*;
 public class Data extends Stream {
     private String input = "";
     private int classValIndex = 0;
+    private boolean isValid = false;
 
     public void setData() {
         try {
@@ -23,8 +24,10 @@ public class Data extends Stream {
                 this.setInputFromConsole();
                 this.arff = new ArffFileStream(this.input, -1);
             }
+            isValid = true;
         } catch (Exception e) {
-            ConsoleColors.ansiRedErrorMessage(e);
+            ConsoleColors.ansiRedMessage("Data is invalid");
+            setData();
         }
     }
 
@@ -75,5 +78,12 @@ public class Data extends Stream {
             ConsoleColors.ansiRedErrorMessage(e);
             return null;
         }
+    }
+
+    public boolean isDataValid() throws Exception {
+        if (this.getInput().length() < 1 && !this.getUseGenerator()) {
+            throw new Exception("Please load data first");
+        }
+        return this.isValid;
     }
 }
